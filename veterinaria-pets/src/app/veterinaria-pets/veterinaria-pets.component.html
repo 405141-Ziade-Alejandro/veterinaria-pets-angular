@@ -1,29 +1,29 @@
 <div class="container bg-primary red-border">
   <p class="text-light text-center">Veterinaria Pets</p>
+  <app-title title="listado mascotas"></app-title>
 
-  @if (!load){
+  @if (!load) {
     <div class="progress">
       <div class="progress-bar bg-danger" role="progressbar" aria-label="Basic example" aria-valuenow="75"
            [style.width]="progress + '%'"
            [attr.aria-valuenow]="progress"
            aria-valuemax="100">
-        {{progress|number: '1.0-0'}} %
+        {{ progress|number: '1.0-0' }} %
       </div>
     </div>
   }
 
-  @if (load){
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="check()">
-      <label class="form-check-label" for="flexCheckDefault">
-        show list
-      </label>
-    </div>
+  @if (load && unchecked) {
+    <button type="button" class="btn btn-secondary" (click)="check()">Show List</button>
   }
 
   @if (show) {
-    @for (pet of pets; track $index) {
-      <app-pet-card [pet]="pet"></app-pet-card>
-    }
+    <app-add-pet></app-add-pet>
+
+    <app-pet-list></app-pet-list>
+
+  } @else if (!show && !unchecked) {
+    <app-attenciones></app-attenciones>
   }
+
 </div>

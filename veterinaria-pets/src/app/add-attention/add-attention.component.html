@@ -1,0 +1,40 @@
+<form #atencionForm="ngForm" (ngSubmit)="addAtention(atencionForm)" class="row mb-3">
+  <div class="col">
+    <input type="text" class="form-control" id="mascotaId" name="mascotaName" [(ngModel)]="newAtencion.mascota"
+           readonly>
+
+  </div>
+  <div class="col">
+    <input type="text" class="form-control" id="atencionId" name="atencionName"
+           #atencionControl="ngModel" [(ngModel)]="newAtencion.atencion" required maxlength="2000">
+    @if (atencionControl.invalid && (atencionControl.touched || atencionControl.dirty)) {
+      @if (atencionControl.getError('required')) {
+        <div>la atencion es obligatoria</div>
+      }
+      @if (atencionControl.getError('minlength')) {
+        <div class="text-danger">la atencion tiene que ser menor a 2000 characters</div>
+      }
+    }
+
+  </div>
+  <div class="col">
+    <input type="number" class="form-control" id="costoId" name="costoName"
+           [ngClass]="{'is-invalid':costocontrol.invalid, 'is-valid':costocontrol.valid}"
+           #costocontrol="ngModel" [(ngModel)]="newAtencion.costo" required>
+
+    @if (costocontrol.invalid && (costocontrol.touched || costocontrol.dirty)) {
+      @if (costocontrol.getError('required')) {
+        <div>el costo es obligatoria</div>
+      }
+    }
+
+  </div>
+  <div class="col">
+    <input type="text" class="form-control" id="fechaId" name="fechaName" [(ngModel)]="newAtencion.fecha" readonly>
+
+
+  </div>
+  <div class="col">
+    <button type="submit" class="btn btn-success" [disabled]="atencionForm.invalid">+</button>
+  </div>
+</form>

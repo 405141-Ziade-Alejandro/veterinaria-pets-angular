@@ -7,7 +7,13 @@
     <li class="list-group-item">Race: {{pet.race}}</li>
     <li class="list-group-item">amount of sex: over {{pet.sex}}
       <button class="btn btn-primary" (click)="more()">+</button></li>
-    <li class="list-group-item">Age: {{pet.age}}</li>
+    <li class="list-group-item">Age: {{pet.age | age}}</li>
     <li class="list-group-item"><app-opacidad (opacityChange)="onOpacityChange($event)"></app-opacidad> </li>
+    <li class="list-group-item">
+      <button type="button" class="btn btn-success" (click)="addAtencion()">Agregar Atencion</button>
+    </li>
+    <li class="list-group-item">
+      <app-delete-pet [index]="index"></app-delete-pet>
+    </li>
   </ul>
 </div>

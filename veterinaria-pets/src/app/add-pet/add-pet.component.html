@@ -1,0 +1,24 @@
+<form #myForm="ngForm" (ngSubmit)="addPet(myForm)">
+  <label for="mascotaId" class="form-label">nombre de la mascota</label>
+  <input type="text" class="form-control" id="mascotaId" name="mascotaName"
+         [(ngModel)]="newPet.name" required maxlength="250" >
+
+  <label for="sexId" class="form-label">cantidad de sexo</label>
+  <input type="number" class="form-control" id="sexId" name="sexName"
+         [(ngModel)]="newPet.sex" required>
+
+  <label for="raceId" class="form-label">raza</label>
+  <input type="text" class="form-control" id="raceId" name="raceName"
+         [(ngModel)]="newPet.race" required maxlength="300">
+
+  <label for="anoNacimentoId" class="form-label">año de nacimiento</label>
+  <input type="number" class="form-control" id="anoNacimentoId" name="anoNacimientoName"
+         [(ngModel)]="newPet.age" required>
+
+  <label for="urlId" class="form-label">url de imagen</label>
+  <input type="text" class="form-control" id="urlId"  name="urlName"
+         [(ngModel)]="newPet.image" required>
+
+  <button type="submit" class="btn btn-secondary my-3" [disabled]="myForm.invalid"> agregar mascota</button>
+
+</form>

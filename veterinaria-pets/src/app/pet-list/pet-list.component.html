@@ -1,0 +1,7 @@
+<div class="row">
+  @for (pet of pets; track $index) {
+    <div class="col mb-3">
+      <app-pet-card [pet]="pet" [index]="$index"></app-pet-card>
+    </div>
+  }
+</div>

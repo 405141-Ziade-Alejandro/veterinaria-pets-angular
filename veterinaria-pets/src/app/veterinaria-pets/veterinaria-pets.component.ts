@@ -1,18 +1,33 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {PetCardComponent} from "../pet-card/pet-card.component";
 import {DecimalPipe} from "@angular/common";
+import {TitleComponent} from "../title/title.component";
+import {AttencionesComponent} from "../attenciones/attenciones.component";
+import {MascotaService} from "../mascota.service";
+import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {PetListComponent} from "../pet-list/pet-list.component";
+import {AddPetComponent} from "../add-pet/add-pet.component";
 
 @Component({
   selector: 'app-veterinaria-pets',
   standalone: true,
   imports: [
     PetCardComponent,
-    DecimalPipe
+    DecimalPipe,
+    TitleComponent,
+    AttencionesComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    PetListComponent,
+    AddPetComponent
   ],
   templateUrl: './veterinaria-pets.component.html',
   styleUrl: './veterinaria-pets.component.css'
 })
 export class VeterinariaPetsComponent {
+
+  private mascotaSercive = inject(MascotaService);
+
 
   show:boolean = false;
 
@@ -20,46 +35,20 @@ export class VeterinariaPetsComponent {
 
   progress:number = 0;
 
-  pets:{name:string,sex:number,race:string,age:string,image:string}[]=[
-    {
-      name: 'Maika',
-      sex: 60,
-      race: 'bunny',
-      age: '24',
-      image: 'https://img3.gelbooru.com//images/7c/34/7c347f35b2d27924f6e4f50dcd679b50.jpeg'
-    },
-    {
-      name: 'Rinko',
-      sex: 100,
-      race: 'cow',
-      age: '19',
-      image: 'https://img3.gelbooru.com//images/35/dc/35dc206cc0f2c976c4f20634ea6bc122.png'
-    },
-    {
-      name: 'ingrid',
-      sex: 260,
-      race: 'cat',
-      age: '30',
-      image: 'https://img3.gelbooru.com/images/26/d0/26d0bbb4ccf0f46ebb567c845d681dd7.jpeg'
-    },
-    {
-      name: 'Yukikaze',
-      sex: 400,
-      race: 'pig',
-      age: '16',
-      image: 'https://img3.gelbooru.com/images/c4/c6/c4c648755311c3434e1adab5a84185d9.jpg'
-    },
-    {
-      name: 'Misao',
-      sex: 15,
-      race: 'horse',
-      age: '31',
-      image: 'https://img3.gelbooru.com//images/3f/76/3f76a4459f893e439d361ac2f896b2df.jpeg'
-    }
-  ];
+  newPet= {
+    name: '',
+    sex:0,
+    race:'',
+    age:0,
+    image:''
+  }
+
+  pets:{name:string,sex:number,race:string,age:number,image:string}[]=[];
+  unchecked: boolean = true;
 
   check() {
-    this.show = !this.show;
+    this.mascotaSercive.setShowList(!this.show)
+    this.unchecked = false;
   }
 
   simulateLoading() {
@@ -74,7 +63,31 @@ export class VeterinariaPetsComponent {
   }
 
   ngOnInit() {
+    this.pets = this.mascotaSercive.getPets();
+
+    this.mascotaSercive.showList.subscribe(flag=>{
+      this.show = flag;
+    })
     this.simulateLoading()
   }
 
+
+  addPet(myForm: NgForm) {
+    if (myForm.valid){
+      const petClone = {...this.newPet}
+
+      this.mascotaSercive.addPet(petClone)
+
+      this.newPet.name = '';
+      this.newPet.race = '';
+      this.newPet.image = '';
+      this.newPet.age = 0;
+      this.newPet.sex = 0;
+
+
+
+    } else {
+      console.log("something wrong buddy")
+    }
+  }
 }
